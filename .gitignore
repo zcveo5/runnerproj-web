@@ -13,3 +13,4 @@ __pycache__/
 /.old/old.js
 /vite.config.js
 /.old/ws.js
+/package-lock.json
