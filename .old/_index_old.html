@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title><!DOCTYPE html>
+        <html lang="en">
+        <head>
+        <meta charset="UTF-8">
+        <title>Title</title>
+    <link rel="stylesheet" href="../static/style-misc.css">
+</head>
+<body>
+<div id="Notes"></div>
+<div id="LoginModal" class="modal-overlay">
+    <div class="modal-content">
+        <form id="LoginForm">
+            <h3>Вход в аккаунт или регистрация</h3>
+            <label>
+                Пользователь: <input id="LoginUsernameInput">
+            </label>
+            <label>
+                Пароль: <input id="LoginPasswordInput" type="password">
+            </label>
+            <button type="submit" id="LoginSubmit">Войти</button>
+        </form>
+    </div>
+</div>
+
+<div id="ScheduleCreateModal" class="modal-overlay">
+    <div class="modal-content">
+        <form id="ScheduleCreateForm">
+            <h3>Создать расписание</h3>
+            <label>
+                Сейчас (км): <input id="ScheduleCreateCurrent" type="number">
+            </label>
+            <label>
+                Цель (км): <input id="ScheduleCreateTarget" type="number">
+            </label>
+            <button type="submit">Подтвердить</button>
+        </form>
+    </div>
+</div>
+
+<div id="SettingsModal" class="modal-overlay">
+    <div class="modal-content">
+        <h3>Настройки</h3>
+        <button id="SettingsResetSchedule">Пересоздать расписание</button>
+        <button id="SettingsExitAccount">Выйти из аккаунта</button>
+        <button id="SettingsExit">Отмена</button>
+    </div>
+</div>
+
+<div id="DebugModal" class="modal-overlay">
+    <div class="modal-content">
+        <h3>Отладка</h3>
+        <div class="debug-section is-collapsed">
+            <h4 class="section-toggle">Расписание тренировок</h4>
+            <div class="section-body">
+                <div class="section-content">
+                    <label>Дата начала тренировок <input id="DebugScheduleStartDate" type="date"></label>
+                    <label>Сейчас (км): <input id="DebugScheduleCurrent" type="number"></label>
+                    <label>Цель (км): <input id="DebugScheduleTarget" type="number"></label>
+                    <button id="DebugResetSchedule">Пересоздать расписание</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="debug-section is-collapsed">
+            <h4 class="section-toggle">Сдвиг всех тренировок</h4>
+            <div class="section-body">
+                <div class="section-content">
+                    <label>
+                        Сдвиг: <span id="DebugMoveValue">1 день</span>
+                        <input id="DebugScheduleDateMove" type="range" min="-7" max="7" value="1">
+                    </label>
+                    <button id="DebugScheduleDateMoveCommit">Подтвердить</button>
+                </div>
+            </div>
+        </div>
+
+        <button id="DebugExit">Отмена</button>
+    </div>
+</div>
+
+<div id="LoadingModal" class="modal-overlay" style="z-index: 999999">
+    <div class="modal-content loading-content" style="display: flex; flex-direction: row">
+        <div class="spinner"></div>
+        <span>Загрузка...</span>
+    </div>
+</div>
+
+<div id="WorkoutViewModal" class="modal-overlay">
+    <div class="modal-content">
+        <h3 id="WOViewTitle">Просмотр тренировки</h3>
+        <label id="WOViewDateWD">Изменить дату: <input id="WOViewDate" type="date"></label>
+        <label id="WOViewTargetWD">Изменить цель: <input id="WOViewTarget"></label>
+
+        <label id="WOViewCompletedWithDecs">Результат (km): <input id="WOViewCompleted"></label>
+
+        <label id="WOViewCompletedInfo">Результат: </label>
+
+        <div style="display: flex; flex-direction: row; gap: 5px">
+            <button id="WOViewClose">Закрыть</button>
+            <button id="WOViewCancel">Отменить</button>
+        </div>
+    </div>
+</div>
+
+<div id="Status" style="display: flex; flex-direction: row" class="hidden">
+    <div class="spinner"></div>
+    <label id="StatusLbl"></label>
+</div>
+
+<button id="SettingsButton" class="settings-button hidden">Настройки</button>
+
+<button id="TestB">Test</button>
+
+<div style="display: flex; flex-direction: row; gap: 5px; width: 40%">
+    <button id="PagerWorkouts">Тренировки</button>
+    <button id="PagerGraph">График</button>
+</div>
+
+<div style="width: 40%">
+    <div class="notes wo-container" id="Workouts"></div>
+    <div class="notes hidden" id="Graph">
+        <canvas id="GraphCanvas"></canvas>
+    </div>
+</div>
+
+<script type="module" src="../static/src/main.jsx"></script>
+</body>
+</html></title>
+</head>
+<body>
+
+</body>
+</html>
