@@ -1,17 +1,15 @@
-# Виртуальные окружения и пакеты
 /.venv/
 /venv/
 /ENV/
 /node_modules/
-
-# Результаты сборки и кэш
 /dist/
 /build/
 *.egg-info/
 __pycache__/
 *.pyc
-
-# Конфиги PyCharm (игнорируем локальные пути и интерпретаторы)
 .idea/
 !.idea/codeStyles/
 !.idea/vcs.xml
+/.old/old.js
+/vite.config.js
+/.old/ws.js
