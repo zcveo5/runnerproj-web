@@ -14,3 +14,6 @@ __pycache__/
 /vite.config.js
 /.old/ws.js
 /package-lock.json
+/.static_react_trash/
+/.old/
+/data.json
