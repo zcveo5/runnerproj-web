@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import formatRelativeTime from '../utils/dates.js'
 
-export default function WorkoutsView({ workouts }) {
+export default function WorkoutsView({ workouts, select_cb }) {
     if (!workouts) {
         return (<div>Invalid WO {typeof workouts}</div>)
     }
@@ -28,7 +28,7 @@ export default function WorkoutsView({ workouts }) {
                 }
 
                 return (
-                   <div className={cardClassName} key={idx}>
+                   <div className={cardClassName} key={idx} onClick={() => {select_cb(value)}}>
                        <div className="wo-header">
                            <span className="wo-date">{value.date}</span>
                            <span className="wo-relative">{formatRelativeTime(value.date)}</span>

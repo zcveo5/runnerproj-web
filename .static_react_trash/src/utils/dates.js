@@ -22,3 +22,15 @@ export default function formatRelativeTime(dateStr) {
 
     return rtf.format(diffInDays, 'day'); // "через 2 дня", "через 5 дней"
 }
+
+export function stringifyDate(date) {
+    const year = date.getFullYear();
+
+    // Прибавляем 1 к месяцу и дополняем нулем слева, если число однозначное
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+
+    // Берем день месяца вместо дня недели
+    const day = String(date.getDate()).padStart(2, '0');
+
+    return `${year}.${month}.${day}`;
+}

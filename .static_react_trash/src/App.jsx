@@ -4,6 +4,8 @@ import LoginModal from "./components/LoginScreen.jsx";
 import Notifications from "./components/Notifications.jsx";
 import {deleteCookie, getCookie, setCookie} from './utils/cookies.js'
 import WorkoutsView from "./components/WorkoutsView.jsx";
+import WorkoutScreen from "./components/WorkoutScreen.jsx";
+import Settings from "./components/Settings.jsx";
 
 const client = new WsClient('/ws')
 
@@ -46,6 +48,8 @@ let schedule = null
 
 export default function App() {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [isSettingsOpen, setSettingsOpen] = useState(false);
+    const [selectedWO, setSelectedWO] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
     const [notes, setNotes] = useState([]);
     const [workouts, setWorkouts] = useState([])
@@ -111,17 +115,32 @@ export default function App() {
 
     return (
         <div>
+            STATE settings:{isSettingsOpen.toString()} logged:{isLoggedIn.toString()}
+
             <Notifications notes={notes}/>
+
+            {!isSettingsOpen ? (
+                <button className="settings-button" onClick={() => {setSettingsOpen(true)}}>Settings</button>
+            ) : (
+                <Settings settings={[{command: async () => {
+                        await un_login()
+                        setIsLoggedIn(false)
+                        setSettingsOpen(false)
+                    }, text: 'Logout'}]} close_cb={() => {setSettingsOpen(false)}}/>
+            )}
+
+            <WorkoutScreen wo={selectedWO} cb={(new_wo) => {
+                if (new_wo) {
+
+                }
+                setSelectedWO(null)
+            }}/>
 
             {!isLoggedIn ? (
                 <LoginModal onLogin={handleUserLogin} />
             ) : (
                 <div>
-                    <button onClick={async () => {
-                        await un_login()
-                        setIsLoggedIn(false)
-                    }}>Выйти</button>
-                    <WorkoutsView workouts={workouts}/>
+                    <WorkoutsView workouts={workouts} select_cb={(wo) => {setSelectedWO(wo)}}/>
                 </div>
             )}
         </div>

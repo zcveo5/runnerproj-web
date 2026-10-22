@@ -117,6 +117,9 @@ class Resolver:
     def do_auth(self, *, username, password=None, token=None):
         user = None
 
+        if username not in data_users:
+            raise ResponseError('Firstly register')
+
         if token:
             if username in data_users:
                 if data_users[username].get('token') == token:
@@ -132,18 +135,6 @@ class Resolver:
                 user = data_users[username]
                 if 'token' not in user:
                     user['token'] = uuid.uuid4().hex
-            else:
-                if not password:
-                    raise IncompleteParamsError('password')
-
-                token_new = uuid.uuid4().hex
-                user = {
-                    'username': username,
-                    'password': password,
-                    'schedule': {},
-                    'token': token_new
-                }
-                data_users[username] = user
         else:
             raise ResponseError(f'{username} {password} {token} Incomplete')
 
@@ -153,6 +144,24 @@ class Resolver:
             'username': user['username'],
             'token': user['token']
         }
+
+    @require_keywords
+    def do_register(self, *, username, password, weight):
+        if username in data_users:
+            raise ResponseError('Invalid data')
+
+        token_new = uuid.uuid4().hex
+        user = {
+            'username': username,
+            'password': password,
+            'schedule': {},
+            'settings': {
+                'weight': weight
+            },
+            'token': token_new
+        }
+        data_users[username] = user
+        return {'status': 'ok'}
 
     def do_get_schedule(self):
         username = self.data['auth']['username']
@@ -176,11 +185,20 @@ class Resolver:
         data_users[username]['schedule'] = {'plan': schedule, 'from': now, 'to': final}
         return schedule
 
+    def do_get_settings(self):
+        username = self.data['auth']['username']
+        return data_users[username]['settings']
+
+    def do_update_settings(self, **kw):
+        username = self.data['auth']['username']
+        data_users[username]['settings'].update(kw)
+
     @require_keywords
-    def do_complete_workout(self, *, idx, result):
+    def do_complete_workout(self, *, idx, result, pulse=0):
         username = self.data['auth']['username']
         data_users[username]['schedule']['plan'][idx]['status'] = 'completed'
         data_users[username]['schedule']['plan'][idx]['result'] = result
+        data_users[username]['schedule']['plan'][idx]['result_pulse'] = pulse
 
     @require_keywords
     def do_upload_schedule(self, *, plan):
@@ -213,7 +231,6 @@ class Resolver:
             new_date_str=date,
             new_target=new_target
         )
-        print(f'[update_schedule] old {plan} -> {new}, {idx} {new_date_str} {new_target}')
         data_users[username]['schedule']['plan'] = new
         return {}
 
@@ -247,8 +264,10 @@ class WebsocketsManager:
             except ResponseError as _ex:
                 resp = {'status': 'error', 'payload': _ex.json()}
             if resp:
-                # await asyncio.sleep(len(resp) * 0.25 * random.uniform(0.8, 1.2))
-                print(f'{payload} -> {resp}')
+                resp_s = f'{resp}'
+                if len(resp_s) > 200:
+                    resp_s = resp_s[:200] + '...'
+                print(f'{payload} -> {resp_s}')
                 await websocket.send_json(resp)
 
     async def stop(self):
